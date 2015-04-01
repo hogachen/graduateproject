@@ -17,3 +17,6 @@ local.properties
 proguard/
 # Log Files
 *.log
+.project
+.pydevproject
+.settings/
