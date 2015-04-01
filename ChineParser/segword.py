@@ -1,11 +1,16 @@
 #encoding:utf-8
 '''
 Created on Mar 22, 2015
-
-@author: hoga
+@author: hogachen
+@email: 1107402232@qq.com
 '''
 print "hello"
 import re
+'''
+    for the ICTCLAS have to write the data(log and error) to the ./ dir
+    so I have to put the 'Data' dir at the './' dir and rm the 'ICTCLAS_Python' dir 
+    'Data' dir
+'''
 from ICTCLAS_Python.nlpir import *
 import jieba.posseg as pseg
 from getAttrNN import *
@@ -25,6 +30,22 @@ def readuserdic():
 
         
 def find_index_of_linkword(start_index,end_index,linktag):
+    '''
+        to search the index of the linkword 
+        idea: use the ' ' character to split the linkword and count 
+        how many ' ' character for finding the index of match sentence flag in 
+        the linktag and then use the index to get the word in the splitlinkword
+        example :
+        sentence:给女朋友买的电池容量大！
+        linkword:给 女朋友 买 的 电池 容量 大
+        linktag: p n v u n n a 
+        there is 4 '' character before the 'n n a' so I use  linkword[4]-linkword[6] 
+        to get the wares' atttbute and comment word
+        
+        better method:
+        to link the word and flag like this :给p 女朋友n 买v 的u 电池n 容量n 大a
+        and the use the regex to match the  'n 容量n 大a' to get the word and flag
+    '''
     if start_index==end_index:
         return 0
     index = 0
@@ -52,8 +73,9 @@ def get_final_good_result(goodresult,linkword,linktag,ndapatten,dapatten,aornpat
     '''
     use the regex to match the 'nad','da','n or a' patten and get the 
     tag and word which match the patten
+    use the regex patten 'n .*?a','d.*?a' ,'^n|^a' in turn to match the
+    linktag
     '''
-   # print linktag,linkword
     striplinktag = linktag.strip(' ')
     striplinkword = linkword.strip(' ')
                     
@@ -111,6 +133,9 @@ def print_result(goodresult):
     
     
 def pre_process_sentence(oldsentence,pattenpre):
+    '''
+    pre process the sentence to make the input to the userful sentence
+    '''
     if oldsentence.strip(' ') == '':
         return ''
     newSen = pattenpre.split(oldsentence)
@@ -121,7 +146,9 @@ def pre_process_sentence(oldsentence,pattenpre):
         sentence = newSen[0]
     return sentence.strip('\n')
 def match_goods_att(data_file_path):
-#read data rom  text
+    '''
+    read the data from the file and process every sentence in turn 
+    '''
     data = open(data_file_path)
     
     
