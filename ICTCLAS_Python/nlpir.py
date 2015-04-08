@@ -221,7 +221,7 @@ if not Init('',ENCODING.UTF8_CODE,''):     #use this line for python 2.x
 ###if not Init(b'',ENCODING.UTF8_CODE,b''):    #use this line for python 3.x; for python3, string parameters should be bytes type
     print("Initialization failed!")
 else:
-    print 'successed!'
+    print 'Init successed!'
     #exit(-111111)
 
 '''
@@ -234,6 +234,14 @@ AddUserWord('有问题 a')
 if ImportUserDict('../MyData/userword'):
     print 'add user word'
 '''
+def readuserdic():
+    userword = open('../MyData/userword')
+#add user word
+    uword = userword.readline()
+    while uword:
+        AddUserWord(uword)
+        uword = userword.readline()
+    userword.close()
 def seg(paragraph):
     result = ParagraphProcess(paragraph, c_int(1))
     atoms = [i.strip().split('/') for i in result.split(' ') if len(i)>=1 and i[0]!=' ']
