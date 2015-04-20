@@ -4,12 +4,8 @@ Created on Apr 8, 2015
 
 @author: root
 '''
-from WordAndTag import *
-class clusterandtag():
-    
-    def __init__(self,cluster,tag):
-        self.cluster=cluster
-        self.tag=tag 
+from Utils.WordAndTag import *
+from Utils.ClusterAndTag import *
         
 class SimilaryWordCluster():
     dic ={}
@@ -23,17 +19,20 @@ class SimilaryWordCluster():
             line = line.strip()
             if line == '':
                 continue
-            if line.find("#")>=0 and self.dic.get(line)!=None:
+#             print line.find("%")
+            if line.find("#")>=0:
                 tmp_cluster = line
+                continue
             else:
                 linesplit= line.split("@")
+#                 print line
                 if linesplit[1]=='n':
-                    cat=clusterandtag(tmp_cluster,'n')
-                    self.dic[line]=cat
+                    cat=ClusterAndTag(tmp_cluster,'n')
+                    self.dic[linesplit[0]]=cat
                 else:
-                    tcat=clusterandtag(tmp_cluster,'a')
-                    self.dic[line]=cat
-    def cal_sentence_cluster(self,analysed_item,cluster_set):
+                    cat=ClusterAndTag(tmp_cluster,'a')
+                    self.dic[linesplit[0]]=cat
+    def cal_sentence_cluster(self,analysed_item):
         '''
         input:
         seg_sen:item[0]:tag item[1]:word
@@ -41,19 +40,38 @@ class SimilaryWordCluster():
         '''
         
         for item in analysed_item.one_short_sentence:
-            cluster = self.get_word_cluster(self,item.linkword,item.linktag)
+            cluster = self.get_word_cluster(item.linkword,item.linktag)
             if cluster !=None:
+                if analysed_item.score != 0:
+                    head,good,bad=self.cut_cluter_title(cluster)
                 if analysed_item.score>0:
-                    cluster=cluster.split("#")[1].split("%")[0]
+                    cluster=head+good
                 elif analysed_item.score<0:
-                    cluster=cluster.split("#")[1].split("%")[1]
-                cluster_set.add(cluster)
+                    cluster=head+bad
+#                 print cluster
+                return cluster
+#                 cluster_set.append(cluster)
+                
+                
+                
+    def cut_cluter_title(self,cluster):
+        '''
+        just for not split too many times
+        '''
+        tmpcut = cluster.split("#")
+        head = tmpcut[0]
+        tmpcut_tend=tmpcut[1].split("%")
+        good = tmpcut_tend[0]
+        bad = tmpcut_tend[1]
+        return head,good,bad
     def get_word_cluster(self,word,tag):
         if word=='':return None
         for item in self.dic.keys():
+#             print item
             if word.find(item)>=0 and self.dic.get(item).tag == tag:
+#                 print self.dic.get(item).cluster
                 return self.dic.get(item).cluster   
-        
+        return None
         
         
         

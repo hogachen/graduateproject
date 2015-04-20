@@ -4,7 +4,7 @@ Created on Apr 5, 2015
 
 @author: root
 '''
-from CalWordSimilary.read_data import *
+from FindBrandSimilaryRules.read_data import *
 from ICTCLAS_Python.nlpir import *
 import unittest
 class TestMongo(unittest.TestCase):
