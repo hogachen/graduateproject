@@ -12,8 +12,7 @@ import re
     'Data' dir
 '''
 from ICTCLAS_Python.nlpir import *
-from getAttrNN import *
-from WordAndTag import *
+from Utils.WordAndTag import *
 
 
 
@@ -90,9 +89,9 @@ def get_final_good_result(goodresult,linkword,linktag,ndapatten,dapatten,aornpat
         for index in indexs:
             count+=1#for the vn an  nn words
             if splitlinktag[index].find('n')>=0 and count==1 and splitlinktag[index+1]=='n':
-                wat = wordandtag(splitlinkword[index]+' '+splitlinkword[index+1],splitlinktag[index]+' '+splitlinktag[index+1])
+                wat = WordAndTag(splitlinkword[index]+' '+splitlinkword[index+1],splitlinktag[index]+' '+splitlinktag[index+1])
             else:
-                wat = wordandtag(splitlinkword[index],splitlinktag[index])
+                wat = WordAndTag(splitlinkword[index],splitlinktag[index])
             one_short_sentence.append(wat)
         goodresult.append(one_short_sentence)                   
     if havenda == 0:
@@ -101,13 +100,13 @@ def get_final_good_result(goodresult,linkword,linktag,ndapatten,dapatten,aornpat
             one_short_sentence2 = []
             indexs = find_index_of_linkword(e_damatch.start(),e_damatch.end(),striplinktag)
             for index in indexs:
-                wat = wordandtag(splitlinkword[index],splitlinktag[index])
+                wat = WordAndTag(splitlinkword[index],splitlinktag[index])
                 one_short_sentence2.append(wat)
             goodresult.append(one_short_sentence2)
     if havenda==0 and haveda == 0: 
         for e_aornmatch in aornpatten.finditer(striplinktag):
             one_short_sentence3 = []
-            wat = wordandtag(splitlinkword[0],splitlinktag[0])
+            wat = WordAndTag(splitlinkword[0],splitlinktag[0])
             one_short_sentence3.append(wat)
             goodresult.append(one_short_sentence3)    
     
@@ -125,7 +124,7 @@ def print_result(goodresult):
                 i=0
             continue
         for wat in item:
-            print >> of,wat.linkword,',',wat.linktag,
+            print >> of,wat.word,',',wat.tag,
             print >> of,' ',
         print >>of
     of.close()
@@ -204,7 +203,7 @@ def match_goods_attritube(data_file_path):
     return goodresult
 
 if __name__ == '__main__':
-    match_goods_attritube('../MyData/datamore.txt')
+    match_goods_attritube('../MyData/data.txt')
 
 
 

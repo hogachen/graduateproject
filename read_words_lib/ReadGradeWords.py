@@ -20,13 +20,13 @@ def read_grade_word_file(filename):
             split_line = line.split('#')
             one_grade_dic = []
             grade_key=split_line[1]
-            print grade_key
+#             print grade_key
             grade_dic[grade_key]=one_grade_dic
             continue
         else:
             grade_dic[grade_key].append(line)
             
-        print line
+#         print line
     ofile.close()
 #     tmp = grade_dic['1'][1]
 #     print 'after :',chardet.detect(tmp),type(tmp),tmp

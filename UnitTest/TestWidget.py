@@ -59,6 +59,8 @@ class WidgetTestCase(unittest.TestCase):
     def testRise(self):
         self.widget.resize(10,10)
         self.assertEqual(self.widget.getSize(), (10, 10))
+    def test_python2_7(self):
+        self.assertGreater(10,6)
 #     def runTest(self):
 #         widget = Widget()
 #         self.assertEqual(widget.getSize(), (40, 40))
@@ -73,7 +75,7 @@ if __name__ == '__main__':
     1.name the method start with the 'testXX',and use the unittest.main() to run  the test
     2.use the unittest.TestSuite() ,and generate the unittest.TextTestRunner()
     '''
-    runner = unittest.TextTestRunner()
-    runner.run(suite())
-   # unittest.main()
+#     runner = unittest.TextTestRunner()
+#     runner.run(suite())
+    unittest.main()
     
