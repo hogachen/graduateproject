@@ -20,3 +20,5 @@ proguard/
 .project
 .pydevproject
 .settings/
+*.pyc
+*.err

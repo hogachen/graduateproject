@@ -14,3 +14,4 @@ class Cluster():
         self.tmp_id_list=[]
         self.tmp_wordsDis_list=[]
         self.relation_count=0
+        self.count=0

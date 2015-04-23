@@ -8,10 +8,11 @@ from read_data import *
 from DBOperation.DBOperation import *
 import datetime
 from HierarchicalClustering import *
+from FindBrandSimilaryRules.OnePass import OnePass
 class CalWordSimilary():
     dic={}
     relate_word_dic={}
-    def __init__(self,dic,window_size=10,relate_window=50):
+    def __init__(self,dic,window_size=1,relate_window=100):
         '''
         if window_size==10 it means cal similary in mean group
         else window_size==1or2 it means cal in small windowsize
@@ -95,7 +96,9 @@ class CalWordSimilary():
             if i == self.relate_window:break
             toplist.append(item)
             i+=1
+        
         return toplist
+    
     def cal_relate_word(self):
         self.change_oridic_sorted()
         self.find_relate_words()
@@ -106,6 +109,9 @@ class CalWordSimilary():
     def easy_clustering(self):
         hc = HierarchicalClustering()
         hc.run_easy_clustering(self.dic)
+    def one_pass(self):
+        onepass=OnePass(self.dic)
+        onepass.one_pass()
 if __name__ == "__main__":
     
     starttime = datetime.datetime.now()
@@ -116,9 +122,10 @@ if __name__ == "__main__":
     
     cs = CalWordSimilary(dic)
     cs.cal_words_similary()
-#     cs.cal_relate_word()
+    cs.cal_relate_word()
 #     cs.hierarchical_clustering()
-    cs.easy_clustering()
+#     cs.easy_clustering()
+#     cs.one_pass()
     
     
     
